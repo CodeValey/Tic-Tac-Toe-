@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Tic Tac Toe</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #367591;
+    }
+
+    .header {
+        width: 20%;
+        background-color: #1bf5af;
+        display: flex;
+        justify-content: center;
+        height: 10vh;
+        margin-left: 40%;
+        align-items: center;
+        border-radius: 9px;
+    }
+
+    .board {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: bisque;
+        width: 30%;
+        height: 50vh;
+        border: 2px solid black;
+        margin-left: 35%;
+        border-radius: 5px;
+    }
+
+    .row {
+        display: flex;
+    }
+
+    .cell {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #000000;
+        margin: 3px;
+        background-color: #d1bfa7;
+        cursor: pointer;
+        border-radius: 7px;
+    }
+
+    .cell:hover {
+        background-color: white;
+    }
+
+    .playerscards {
+        display: flex;
+        margin-top: 10px;
+        justify-content: space-between;
+        width: 100%;
+        /* border: 2px solid black; */
+        height: 20vh;
+    }
+
+    #player1 {
+        width: 20%;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #player2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20%;
+        margin-right: 20px;
+        flex-direction: column;
+    }
+
+    .X {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #000000;
+        margin: 3px;
+        background-color: bisque;
+        cursor: pointer;
+        border-radius: 7px;
+    }
+
+    .O {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #000000;
+        margin: 3px;
+        background-color: bisque;
+        cursor: pointer;
+        border-radius: 7px;
+    }
+
+    .result {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        display: none;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: red;
+        color: #FFF;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none;
+    }
+
+    button:hover {
+        background-color: #b93c3c;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+    }
+
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    .modal h3 {
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        color: #367591;
+        /* Your desired text color */
+    }
+
+    .modal label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 15px;
+        color: #1bf5af;
+    }
+
+    .modal input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #367591;
+        border-radius: 5px;
+    }
+
+    .modal button {
+        display: block;
+        padding: 10px 20px;
+        background-color: #367591;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .modal button:hover {
+        background-color: #1bf5af;
+    }
+
+    .cell.player-x-win {
+        background-color:#735C40;
+    }
+
+    .cell.player-o-win {
+        background-color:#735C40;
+    }
+</style>
+
+<body>
+    <div class="header">
+        <h2>Tic Tac Toe</h2>
+    </div>
+    <div class="playerscards">
+        <div id="player1">
+            <p><strong>Player1</strong></p>
+            <div class="X" draggable="true">X</div>
+            <div id="Xcount"></div>
+        </div>
+        <div class="btn"><Button id="btn">Reset</Button></div>
+        <div id="player2">
+            <p><strong>Player2</strong></p>
+            <div class="O" draggable="true">O</div>
+            <div id="Ocount"></div>
+        </div>
+    </div>
+    <div class="board">
+        <div class="row">
+            <div class="cell" draggable="false" data-row="0" data-col="0"></div>
+            <div class="cell" draggable="false" data-row="0" data-col="1"></div>
+            <div class="cell" draggable="false" data-row="0" data-col="2"></div>
+        </div>
+        <div class="row">
+            <div class="cell" draggable="false" data-row="1" data-col="0"></div>
+            <div class="cell" draggable="false" data-row="1" data-col="1"></div>
+            <div class="cell" draggable="false" data-row="1" data-col="2"></div>
+        </div>
+        <div class="row">
+            <div class="cell" draggable="false" data-row="2" data-col="0"></div>
+            <div class="cell" draggable="false" data-row="2" data-col="1"></div>
+            <div class="cell" draggable="false" data-row="2" data-col="2"></div>
+        </div>
+    </div>
+    <div class="result"></div>
+    <!-- <div class="playerscards">
+        <div id="player1">Player1</div>
+        <div id="player2">Player2</div>
+    </div> -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h3>Enter Player Names</h3>
+            <label for="player1Name">Player 1 Name:</label>
+            <input type="text" id="player1Name" required>
+            <label for="player2Name">Player 2 Name:</label>
+            <input type="text" id="player2Name" required>
+            <p class="error-message" id="nameErrorMessage"></p>
+            <button id="submitNames">Submit</button>
+        </div>
+    </div>
+</body>
+<script src="index.js"></script>
+
+</html>
